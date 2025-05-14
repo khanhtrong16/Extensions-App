@@ -3,11 +3,12 @@
 client_id = "f41195c0e9cf166371b60abd87558c05"
 name = "admin-action-app"
 handle = "admin-action-app-6"
-application_url = "https://example.com/"
+application_url = "https://thy-maintained-handbook-ips.trycloudflare.com"
 embedded = true
 
 [build]
 include_config_on_deploy = true
+automatically_update_urls_on_dev = true
 
 [webhooks]
 api_version = "2025-04"
@@ -25,7 +26,11 @@ api_version = "2025-04"
 scopes = "write_products"
 
 [auth]
-redirect_urls = [ "https://example.com/api/auth" ]
+redirect_urls = [
+  "https://thy-maintained-handbook-ips.trycloudflare.com/auth/callback",
+  "https://thy-maintained-handbook-ips.trycloudflare.com/auth/shopify/callback",
+  "https://thy-maintained-handbook-ips.trycloudflare.com/api/auth/callback"
+]
 
 [pos]
 embedded = false
