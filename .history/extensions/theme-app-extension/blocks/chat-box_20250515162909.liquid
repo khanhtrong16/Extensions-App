@@ -1,0 +1,199 @@
+{% assign chat_data = 
+  {
+    "icon": section.settings.chat_icon | default: "https://cdn.shopify.com/s/assets/no-image-2048-5e88c1b20e087fb7bbe9a3771824e743c244f437e4f8ba93bbf7b11b53f7824c_100x100.gif",
+    "header_title": section.settings.header_text | default: "Hỗ trợ khách hàng",
+    "greeting": section.settings.greeting_message | default: "Xin chào! Chúng tôi có thể giúp gì cho bạn?",
+    "auto_message": section.settings.auto_message | default: "Vui lòng để lại tin nhắn, chúng tôi sẽ liên hệ lại sớm.",
+    "placeholder": section.settings.input_placeholder | default: "Nhập tin nhắn...",
+    "button_text": section.settings.button_text | default: "Gửi",
+    "theme_color": section.settings.theme_color | default: "#0078ff"
+  }
+%}
+
+<div class="chat-widget">
+  <div class="chat-icon" style="background-color: {{ chat_data.theme_color }}">
+    <img src="{{ chat_data.icon }}" alt="Chat" onerror="this.src='https://cdn.shopify.com/s/assets/no-image-2048-5e88c1b20e087fb7bbe9a3771824e743c244f437e4f8ba93bbf7b11b53f7824c_100x100.gif'">
+  </div>
+  <div class="chat-box">
+    <div class="chat-header" style="background-color: {{ chat_data.theme_color }}">
+      <h3>{{ chat_data.header_title }}</h3>
+      <span class="close-chat">&times;</span>
+    </div>
+    <div class="chat-body">
+      <p>{{ chat_data.greeting }}</p>
+      <p class="bot-message">{{ chat_data.auto_message }}</p>
+    </div>
+    <div class="chat-footer">
+      <input type="text" placeholder="{{ chat_data.placeholder }}" disabled>
+      <button style="background-color: {{ chat_data.theme_color }}" disabled>{{ chat_data.button_text }}</button>
+    </div>
+  </div>
+</div>
+
+<style>
+  .chat-widget {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    z-index: 9999;
+    font-family: Arial, sans-serif;
+  }
+  
+  .chat-icon {
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    transition: all 0.3s ease;
+  }
+  
+  .chat-icon:hover {
+    transform: scale(1.1);
+  }
+  
+  .chat-icon img {
+    width: 35px;
+    height: 35px;
+    object-fit: contain;
+    filter: brightness(0) invert(1);
+  }
+  
+  .chat-box {
+    position: absolute;
+    bottom: 70px;
+    right: 0;
+    width: 300px;
+    background-color: white;
+    border-radius: 10px;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+    overflow: hidden;
+    display: none;
+  }
+  
+  .chat-header {
+    color: white;
+    padding: 10px 15px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  
+  .chat-header h3 {
+    margin: 0;
+    font-size: 16px;
+  }
+  
+  .close-chat {
+    cursor: pointer;
+    font-size: 20px;
+  }
+  
+  .chat-body {
+    padding: 15px;
+    max-height: 250px;
+    overflow-y: auto;
+  }
+  
+  .chat-body p {
+    margin: 0 0 10px;
+    line-height: 1.5;
+  }
+  
+  .bot-message {
+    background-color: #f1f1f1;
+    padding: 10px;
+    border-radius: 10px;
+  }
+  
+  .chat-footer {
+    display: flex;
+    padding: 10px;
+    border-top: 1px solid #eee;
+  }
+  
+  .chat-footer input {
+    flex: 1;
+    padding: 8px;
+    border: 1px solid #ddd;
+    border-radius: 20px;
+    margin-right: 5px;
+  }
+  
+  .chat-footer button {
+    border: none;
+    color: white;
+    padding: 8px 15px;
+    border-radius: 20px;
+    cursor: pointer;
+  }
+</style>
+
+<script>
+  document.addEventListener('DOMContentLoaded', function() {
+    const chatIcon = document.querySelector('.chat-icon');
+    const chatBox = document.querySelector('.chat-box');
+    const closeChat = document.querySelector('.close-chat');
+    
+    chatIcon.addEventListener('click', function() {
+      chatBox.style.display = chatBox.style.display === 'block' ? 'none' : 'block';
+    });
+    
+    closeChat.addEventListener('click', function() {
+      chatBox.style.display = 'none';
+    });
+  });
+</script>
+
+{% schema %}
+{
+  "name": "Chat Box",
+  "target": "body",
+  "settings": [
+    {
+      "type": "image_picker",
+      "id": "chat_icon",
+      "label": "Chat Icon"
+    },
+    {
+      "type": "text",
+      "id": "header_text",
+      "label": "Header Text",
+      "default": "Hỗ trợ khách hàng"
+    },
+    {
+      "type": "text",
+      "id": "greeting_message",
+      "label": "Greeting Message",
+      "default": "Xin chào! Chúng tôi có thể giúp gì cho bạn?"
+    },
+    {
+      "type": "text",
+      "id": "auto_message",
+      "label": "Auto Response Message",
+      "default": "Vui lòng để lại tin nhắn, chúng tôi sẽ liên hệ lại sớm."
+    },
+    {
+      "type": "text",
+      "id": "input_placeholder",
+      "label": "Input Placeholder",
+      "default": "Nhập tin nhắn..."
+    },
+    {
+      "type": "text",
+      "id": "button_text",
+      "label": "Button Text",
+      "default": "Gửi"
+    },
+    {
+      "type": "color",
+      "id": "theme_color",
+      "label": "Theme Color",
+      "default": "#0078ff"
+    }
+  ]
+}
+{% endschema %}
