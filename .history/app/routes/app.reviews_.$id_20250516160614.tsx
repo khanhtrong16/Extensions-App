@@ -1,0 +1,62 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
+import { LoaderFunction } from "@remix-run/node";
+import { useLoaderData } from "@remix-run/react";
+import { Page, Card, DataTable, Button, Text, Box } from "@shopify/polaris";
+import { authenticate } from "app/shopify.server";
+
+export const loader: LoaderFunction = async ({ request, params }) => {
+  const { admin } = await authenticate.admin(request);
+  const response = await admin.graphql(
+    `#graphql
+    query AppInstallationMetafields($ownerId: ID!) {
+    appInstallation(id: $ownerId) {
+    metafield(namespace: "product_reviews", key: "reviews_8003700228148") {
+      id
+      namespace
+      key
+      value
+    }
+  }
+}`,
+    {
+      variables: {
+        ownerId: "gid://shopify/AppInstallation/557070614580",
+      },
+    },
+  );
+  const data = await response.json();
+  console.log("data đây : ", data.data.appInstallation.metafield);
+  const reviewsData = data.data.appInstallation.metafield;
+  return reviewsData;
+};
+
+export default function AppReviews() {
+  const reviewsData = useLoaderData<typeof loader>();
+  const ListReviews = JSON.parse(reviewsData.value);
+  // console.log("listReviews đây : ", listReviews);
+  // return;
+  const rows = listReviews.map((item: any) => [
+    <Text
+      key={`product-${item.id}`}
+      variant="bodyMd"
+      fontWeight="bold"
+      as="span"
+    >
+      {item.product}
+    </Text>,
+    item.rating + "★",
+    item.count,
+  ]);
+
+  return (
+    <Page title="Product Reviews Details">
+      <Card>
+        <DataTable
+          columnContentTypes={["text", "text", "numeric", "text"]}
+          headings={["ProductID", "Rating", "Review Count", "Actions"]}
+          rows={rows}
+        />
+      </Card>
+    </Page>
+  );
+}

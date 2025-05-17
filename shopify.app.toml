@@ -3,7 +3,7 @@
 client_id = "f41195c0e9cf166371b60abd87558c05"
 name = "admin-action-app"
 handle = "admin-action-app-6"
-application_url = "https://bread-ct-prospects-ads.trycloudflare.com"
+application_url = "https://catalyst-caution-tubes-illness.trycloudflare.com"
 embedded = true
 
 [build]
@@ -27,13 +27,13 @@ scopes = "write_products,read_orders,write_app_proxy,write_products,read_themes"
 
 [auth]
 redirect_urls = [
-  "https://bread-ct-prospects-ads.trycloudflare.com/auth/callback",
-  "https://bread-ct-prospects-ads.trycloudflare.com/auth/shopify/callback",
-  "https://bread-ct-prospects-ads.trycloudflare.com/api/auth/callback"
+  "https://catalyst-caution-tubes-illness.trycloudflare.com/auth/callback",
+  "https://catalyst-caution-tubes-illness.trycloudflare.com/auth/shopify/callback",
+  "https://catalyst-caution-tubes-illness.trycloudflare.com/api/auth/callback"
 ]
 
 [app_proxy]
-url = "https://bread-ct-prospects-ads.trycloudflare.com/app/proxy"
+url = "https://catalyst-caution-tubes-illness.trycloudflare.com/app/proxy"
 subpath = "reviews"
 prefix = "apps"
 
